@@ -6,6 +6,10 @@ This document describes the KAPE storefront, PHP API, admin area, and database i
 
 Kape is a web store with a customer-facing storefront and an admin area. The frontend contains the pages customers use. The PHP backend provides the API, validates requests, applies business rules, and accesses the database. The admin pages use the same API with administrator-only permissions.
 
+## GitHub Pages
+
+The root `index.html` sends visitors to the storefront at `frontend/home.html`, so a GitHub Pages project site opens KAPE instead of rendering this README. GitHub Pages serves static files only: it does not run this project's PHP API or MySQL database. Product loading, accounts, admin features, and checkout therefore need a separate PHP/MySQL host to work online. Do not publish a database dump containing real customer records or credentials.
+
 ```text
 kape/
 ├── frontend/             Customer storefront
