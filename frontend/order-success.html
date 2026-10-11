@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#edf1e7">
+  <title>Order received | KAPE</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/storefront.css">
+  <link rel="stylesheet" href="css/order-success.css">
+  <script src="js/config.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/order-status.js" defer></script><script src="js/orders.js" defer></script>
+</head>
+<body class="storefront-page order-success-page">
+  <header class="site-header order-success-header">
+    <a class="brand" href="home.html">KAPE<span>.</span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="home.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="me.html#orders">Orders</a>
+      <a href="me.html">Me</a>
+    </nav>
+  </header>
+
+  <main class="container order-success-main">
+    <section class="order-success-hero" aria-labelledby="success-title">
+      <span class="success-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m6.5 12.4 3.6 3.5 7.5-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <p class="eyebrow">ORDER RECEIVED</p>
+      <h1 id="success-title">Your order is in.</h1>
+      <p class="order-success-subtitle">We've received your order and we're getting it ready.</p>
+    </section>
+
+    <section class="order-success-loading" data-order-loading aria-live="polite">
+      <p>Loading your order…</p>
+      <div class="order-skeleton skeleton-reference"></div>
+      <div class="order-skeleton skeleton-content"></div>
+    </section>
+
+    <section class="order-success-error panel" data-order-error hidden role="alert">
+      <span class="error-mark" aria-hidden="true">!</span>
+      <p class="eyebrow">ORDER LOOKUP</p>
+      <h2>We couldn't find this order.</h2>
+      <p>The reference may be incorrect or this order may no longer be available. You can check your account or return to the menu.</p>
+      <div class="order-success-actions"><a class="button" href="me.html#orders">Back to Orders</a><a class="button secondary" href="menu.html">Back to Menu</a></div>
+    </section>
+
+    <div class="order-success-content" data-order-content hidden>
+      <section class="order-reference-card" aria-label="Order reference">
+        <div><p class="order-card-kicker">YOUR ORDER REFERENCE</p><p class="order-reference-label">Keep this number handy</p><strong class="order-reference-value" data-order-reference></strong></div>
+        <button class="copy-reference" type="button" data-copy-reference aria-label="Copy order reference"><span data-copy-label>Copy</span></button>
+        <span class="copy-status" data-copy-status role="status" aria-live="polite"></span>
+      </section>
+
+      <div class="order-success-grid">
+        <div class="order-success-primary-column">
+          <section class="order-detail-card order-summary-card" aria-labelledby="order-summary-title">
+            <div class="order-section-heading"><div><p class="eyebrow">MADE FRESH FOR YOU</p><h2 id="order-summary-title">Your order</h2></div><span class="order-item-count" data-order-item-count></span></div>
+            <ul class="success-order-items" data-order-items></ul>
+            <dl class="success-order-totals"><div><dt>Subtotal</dt><dd data-order-subtotal></dd></div><div data-delivery-fee-row><dt>Delivery fee</dt><dd data-delivery-fee></dd></div><div><dt>Payment</dt><dd data-payment-status></dd></div><div class="success-order-total"><dt>Total</dt><dd data-order-total></dd></div></dl>
+            <div class="fulfillment-summary" data-fulfillment-summary></div>
+          </section>
+        </div>
+
+        <aside class="order-detail-card order-status-card" aria-labelledby="order-status-title">
+          <div class="order-section-heading"><div><p class="eyebrow">WE'LL KEEP YOU POSTED</p><h2 id="order-status-title">Order status</h2></div><span class="status-pill order-status-pill" data-order-status role="status" aria-live="polite"></span></div>
+          <p class="order-status-intro" data-status-intro></p>
+          <ol class="success-status-timeline" data-order-timeline aria-label="Order progress"></ol>
+          <div class="account-order-note"><span class="account-note-mark" aria-hidden="true">K.</span><p>Your order and updates are available in your account.</p><a href="me.html#orders">View My Orders <span aria-hidden="true">↗</span></a></div>
+        </aside>
+      </div>
+
+      <div class="order-success-actions order-success-bottom-actions">
+        <a class="button" href="me.html#current-order">View Order Status <span aria-hidden="true">↗</span></a>
+        <a class="button secondary" href="menu.html">Back to Menu</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

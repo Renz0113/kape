@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Inventory | KAPE Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="../frontend/js/config.js" defer></script>
+  <script src="../frontend/js/api.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/inventory.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-admin-header></header>
+  <div class="admin-shell">
+    <aside class="sidebar" data-admin-sidebar aria-label="Admin workspace navigation"></aside>
+    <main class="admin-content inventory-page">
+      <header class="inventory-heading">
+        <div>
+          <p class="inventory-eyebrow">STORE OPERATIONS</p>
+          <h1>Inventory</h1>
+          <p class="inventory-lead">Manage your product stock, record stock changes, and keep track of inventory activity.</p>
+          <p class="inventory-explainer">Inventory helps you know what products are available, what needs attention, and why stock changed.</p>
+        </div>
+        <span class="inventory-heading-mark" aria-hidden="true">K.</span>
+      </header>
+
+      <p class="notice error" data-error hidden></p>
+      <p class="notice inventory-success" data-success role="status" aria-live="polite" hidden></p>
+
+      <section class="inventory-summary" aria-label="Inventory summary">
+        <button class="inventory-summary-card" type="button" data-summary-filter="all">
+          <span>Total Products</span><strong data-total-products>—</strong><small>Including archived products</small>
+        </button>
+        <button class="inventory-summary-card is-low" type="button" data-summary-filter="low">
+          <span>Low Stock</span><strong data-low-stock>—</strong><small>Need attention · 4 or fewer</small>
+        </button>
+        <button class="inventory-summary-card is-empty" type="button" data-summary-filter="out">
+          <span>Out of Stock</span><strong data-out-of-stock>—</strong><small>Currently unavailable</small>
+        </button>
+        <button class="inventory-summary-card" type="button" data-summary-action="history">
+          <span>Recent Movements</span><strong data-recent-movements>—</strong><small>Activity in the last 7 days</small>
+        </button>
+      </section>
+
+      <nav class="inventory-quick-actions" aria-label="Inventory quick actions">
+        <span>Quick actions</span>
+        <button class="button" type="button" data-scroll="adjust-stock">Adjust stock</button>
+        <button class="button secondary" type="button" data-quick-filter="low">View low stock</button>
+        <button class="button secondary" type="button" data-quick-filter="out">View out of stock</button>
+        <button class="button secondary" type="button" data-scroll="inventory-history">View history</button>
+      </nav>
+
+      <section class="inventory-section" id="stock-overview" aria-labelledby="stock-heading">
+        <div class="inventory-section-heading">
+          <div><p class="inventory-eyebrow">CURRENT AVAILABILITY</p><h2 id="stock-heading">Stock at a glance</h2><p>Find products that need attention and jump straight to an adjustment.</p></div>
+        </div>
+        <div class="stock-tools">
+          <label class="inventory-search">Search inventory<input type="search" data-product-search placeholder="Search product or category…" autocomplete="off"></label>
+          <div class="inventory-filter-pills" role="group" aria-label="Filter products by stock status">
+            <button type="button" data-stock-filter="all" aria-pressed="true">All</button>
+            <button type="button" data-stock-filter="in" aria-pressed="false">In Stock</button>
+            <button type="button" data-stock-filter="low" aria-pressed="false">Low Stock</button>
+            <button type="button" data-stock-filter="out" aria-pressed="false">Out of Stock</button>
+            <button type="button" data-stock-filter="archived" aria-pressed="false">Archived</button>
+          </div>
+        </div>
+        <div class="table-wrap inventory-table-wrap">
+          <table class="inventory-table">
+            <thead><tr><th>Product</th><th>Stock</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody data-stock-rows><tr><td colspan="4">Loading product stock…</td></tr></tbody>
+          </table>
+        </div>
+        <p class="inventory-empty" data-stock-empty hidden>No products match this search or filter.</p>
+        <p class="inventory-status-legend"><strong>Status guide:</strong> In Stock means 5 or more units. Low Stock means 1–4 units — restock soon. Out of Stock means unavailable. Archived products are hidden from the customer menu.</p>
+      </section>
+
+      <section class="inventory-section adjust-section" id="adjust-stock" aria-labelledby="adjust-heading">
+        <div class="inventory-section-heading">
+          <div><p class="inventory-eyebrow">MANUAL STOCK CHANGE</p><h2 id="adjust-heading">Adjust stock</h2><p>Use this when you receive, remove, count, damage, or correct products.</p></div>
+        </div>
+        <form class="inventory-adjust-form" data-adjust>
+          <div class="inventory-adjust-fields">
+            <label>Product<select name="product_id" data-adjust-product required><option value="">Choose a product</option></select></label>
+            <fieldset class="adjustment-type-field"><legend>Adjustment type</legend><div class="adjustment-type-options"><button type="button" class="is-selected" data-adjust-type="add" aria-pressed="true">＋ Add stock</button><button type="button" data-adjust-type="remove" aria-pressed="false">− Remove stock</button></div></fieldset>
+            <label>Quantity<input name="quantity" type="number" min="1" max="10000" step="1" inputmode="numeric" placeholder="e.g. 10" required><small>Enter units only. Choose Add Stock or Remove Stock above.</small></label>
+            <label>Reason<select name="reason_type" data-reason-type required><option value="">Choose a reason</option><option>Received new stock</option><option>Manual stock correction</option><option>Damaged product</option><option>Expired product</option><option>Lost product</option><option>Returned stock</option><option>Stock count correction</option><option value="other">Other</option></select></label>
+            <label class="other-reason-field" data-other-reason-field hidden>Please explain the reason<input name="other_reason" maxlength="160" placeholder="Enter a short reason" disabled></label>
+          </div>
+          <div class="inventory-product-preview" data-product-preview aria-live="polite">
+            <div class="preview-product"><span>Selected product</span><strong data-preview-name>Choose a product</strong><small data-preview-status>Current stock and adjustment preview will appear here.</small></div>
+            <div class="preview-quantity"><span>Current Stock</span><strong><b data-preview-current>—</b> <small>units</small></strong></div>
+            <div class="preview-quantity"><span>Adjustment</span><strong data-preview-adjustment>—</strong></div>
+            <div class="preview-quantity"><span>New Stock</span><strong data-preview-new>—</strong></div>
+          </div>
+          <div class="inventory-form-footer"><p class="inventory-form-hint">Positive adjustments add stock. Negative adjustments remove stock. The server checks the final quantity before saving.</p><button class="button" type="submit" data-adjust-submit>Record adjustment</button></div>
+        </form>
+      </section>
+
+      <section class="inventory-section" id="inventory-history" aria-labelledby="history-heading">
+        <div class="inventory-section-heading history-heading">
+          <div><p class="inventory-eyebrow">AUDIT TRAIL</p><h2 id="history-heading">Inventory activity</h2><p>See what changed, why it changed, and who recorded it.</p></div>
+          <span class="history-count" data-history-count>Loading activity…</span>
+        </div>
+        <form class="inventory-history-filters" data-movement-filters>
+          <label>Search activity<input type="search" name="search" placeholder="Product, reason, order, or staff…"></label>
+          <label>Product<select name="product_id" data-history-product><option value="">All products</option></select></label>
+          <label>Activity<select name="type"><option value="all">All activity</option><option value="added">Added</option><option value="removed">Removed</option><option value="automatic">Automatic</option><option value="manual">Manual</option></select></label>
+          <label>Date range<select name="date_range" data-date-range><option value="all">All dates</option><option value="today">Today</option><option value="7d">Last 7 days</option><option value="30d">Last 30 days</option><option value="custom">Custom range</option></select></label>
+          <label class="history-date-field" data-date-from-field hidden>From<input type="date" name="date_from" disabled></label>
+          <label class="history-date-field" data-date-to-field hidden>To<input type="date" name="date_to" disabled></label>
+          <div class="history-filter-actions"><button class="button" type="submit">Apply filters</button><button class="button secondary" type="reset">Clear</button></div>
+        </form>
+        <div class="table-wrap inventory-table-wrap">
+          <table class="inventory-table movement-table">
+            <thead><tr><th>Product</th><th>Change</th><th>Type</th><th>Reason</th><th>Date</th><th>By</th></tr></thead>
+            <tbody data-movement-rows><tr><td colspan="6">Loading inventory activity…</td></tr></tbody>
+          </table>
+        </div>
+        <p class="inventory-empty" data-movement-empty hidden>No activity matches these filters.</p>
+        <button type="button" class="button secondary load-more-movements" data-load-more hidden>Load more activity</button>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

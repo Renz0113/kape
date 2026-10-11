@@ -1,0 +1,60 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KAPE Admin Dashboard</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="../frontend/js/config.js" defer></script>
+  <script src="../frontend/js/api.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/dashboard.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-admin-header></header>
+  <div class="admin-shell">
+    <aside class="sidebar" data-admin-sidebar aria-label="Admin workspace navigation"></aside>
+    <main class="admin-content admin-dashboard">
+      <div class="dashboard-heading">
+        <div><p class="dashboard-kicker">STORE OVERVIEW</p><h1>Dashboard</h1><p>Today at a glance, with your sales trends and best sellers.</p></div>
+        <a class="button dashboard-orders-link" href="orders.html">View orders <span aria-hidden="true">↗</span></a>
+      </div>
+      <p class="notice error" data-error hidden></p>
+      <section class="dashboard-metrics" aria-label="Store performance" data-summary aria-live="polite">
+        <article class="metric"><span>Sales today</span><strong>—</strong></article>
+        <article class="metric"><span>Orders today</span><strong>—</strong></article>
+        <article class="metric"><span>Average order</span><strong>—</strong></article>
+        <article class="metric"><span>Pending orders</span><strong>—</strong></article>
+        <article class="metric"><span>Low stock</span><strong>—</strong></article>
+        <article class="metric metric-top-product"><span>Top selling · 7 days</span><strong>—</strong></article>
+      </section>
+      <section class="sales-panel" aria-labelledby="sales-heading">
+        <div class="sales-panel-header">
+          <div><p class="dashboard-kicker">YOUR STORE AT A GLANCE</p><h2 id="sales-heading">Sales overview</h2><p data-range-caption>Daily sales over the last 7 days.</p></div>
+          <div class="dashboard-ranges" role="group" aria-label="Sales overview date range">
+            <button type="button" data-range="today" aria-pressed="false">Today</button>
+            <button type="button" data-range="7d" aria-pressed="true">7 Days</button>
+            <button type="button" data-range="30d" aria-pressed="false">30 Days</button>
+            <button type="button" data-range="custom" aria-pressed="false">Custom</button>
+          </div>
+        </div>
+        <form class="dashboard-custom-range" data-custom-range hidden>
+          <label>From<input type="date" name="start" required></label>
+          <label>To<input type="date" name="end" required></label>
+          <button class="button" type="submit">Apply dates</button>
+        </form>
+        <div class="sales-chart" data-sales-chart role="img" aria-label="Sales chart loading">
+          <p class="sales-chart-empty">Loading sales overview…</p>
+        </div>
+      </section>
+      <section class="quick-actions dashboard-quick-actions">
+        <h2>Quick actions</h2>
+        <a class="button" href="orders.html">Manage orders</a>
+        <a class="button secondary" href="products.html">Update catalog</a>
+        <a class="button secondary" href="inventory.html">Adjust stock</a>
+        <a class="button secondary" href="reports.html">View reports</a>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

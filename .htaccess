@@ -1,0 +1,21 @@
+Options -Indexes
+
+<FilesMatch "^\.env(?:\..*)?$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # The connected storefront is now the site homepage.
+    RewriteRule ^$ frontend/home.html [R=302,L]
+
+    # Backend implementation files are included by the API entry point and
+    # must not be callable as public URLs. THE_REQUEST excludes internal rewrites.
+    RewriteCond %{THE_REQUEST} \s/+.*?/backend/ [NC]
+    RewriteRule ^backend/ - [F,L]
+
+    # Send versioned API requests to the PHP front controller; serve the existing
+    # storefront and its assets as ordinary static files.
+    RewriteRule ^api(?:/.*)?$ backend/routes/api.php [QSA,L]
+</IfModule>

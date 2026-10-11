@@ -1,0 +1,45 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#edf1e7">
+  <title>Admin sign in | KAPE</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="../frontend/css/login.css">
+  <script src="../frontend/js/config.js" defer></script>
+  <script src="../frontend/js/api.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/login.js" defer></script>
+</head>
+<body class="login-page admin-login-page">
+  <header class="login-header">
+    <a class="brand admin-login-brand" href="index.html" aria-label="KAPE Admin home">KAPE<span>.</span><small>ADMIN</small></a>
+    <a class="login-home-link" href="../frontend/home.html">Back to storefront</a>
+  </header>
+  <main class="login-main">
+    <div class="login-glow login-glow-one" aria-hidden="true"></div>
+    <div class="login-glow login-glow-two" aria-hidden="true"></div>
+    <section class="login-card admin-login-card" aria-labelledby="admin-login-title">
+      <div class="login-card-mark" aria-hidden="true">K.</div>
+      <p class="login-kicker">KAPE ADMINISTRATION</p>
+      <h1 id="admin-login-title">Welcome back.</h1>
+      <p class="login-intro">Sign in to manage your KAPE store.</p>
+      <p class="admin-login-role-note">Use an account with the <strong>admin</strong> role to access the dashboard.</p>
+      <form class="login-form admin-login-form" data-login-form>
+        <p class="notice error admin-login-message" data-login-message hidden></p>
+        <div class="field">
+          <label for="admin-login-email">Email address</label>
+          <input id="admin-login-email" name="email" type="email" required autocomplete="username" placeholder="you@example.com">
+        </div>
+        <div class="field">
+          <label for="admin-login-password">Password</label>
+          <input id="admin-login-password" name="password" type="password" required autocomplete="current-password" placeholder="Enter your password">
+        </div>
+        <button class="button login-submit" type="submit">Sign in <span aria-hidden="true">↗</span></button>
+      </form>
+    </section>
+    <p class="login-footer-note"><span></span> Secure access for KAPE administrators.</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,9 @@
+.env
+.env.*.local
+*.log
+.phpunit.cache/
+/vendor/
+/database/kape.local.sql
+/uploads/products/*
+!/uploads/products/.gitkeep
+!/uploads/products/.htaccess

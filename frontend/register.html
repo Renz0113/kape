@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#edf1e7">
+  <title>Create account | Kapeling Ka</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/register.css">
+  <script src="js/config.js" defer></script><script src="js/api.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/auth.js" defer></script>
+</head>
+<body class="login-page register-page">
+  <header class="login-header"><a class="brand" href="home.html">KAPE<span>.</span></a><a class="login-home-link" href="home.html">Back to KAPE</a></header>
+  <main class="login-main register-main">
+    <div class="login-glow login-glow-one" aria-hidden="true"></div>
+    <div class="login-glow login-glow-two" aria-hidden="true"></div>
+    <section class="login-card register-card" aria-labelledby="register-title">
+      <div class="login-card-mark" aria-hidden="true">K.</div>
+      <p class="login-kicker">KAPELING KA</p>
+      <h1 id="register-title">Create Your Account</h1>
+      <p class="login-intro">Join Kapeling Ka and make every cup a little more personal.</p>
+      <section class="checkout-login-notice" data-checkout-login-notice hidden aria-label="Checkout account information"><p class="eyebrow">ALMOST YOURS · CHECKOUT</p><h2>ONE QUICK STEP</h2><p>Your cart is saved. Create your account, then we’ll bring you right back here.</p></section>
+      <form class="login-form register-form" data-auth="register" data-register-form novalidate>
+        <p class="notice error register-message" data-message role="alert" hidden></p>
+        <div class="field"><label for="register-name">Full name</label><input id="register-name" name="name" type="text" placeholder="Enter your full name" required maxlength="120" autocomplete="name"><small class="register-field-error" data-error-for="name" hidden></small></div>
+        <div class="field"><label for="register-email">Email address</label><input id="register-email" name="email" type="email" placeholder="Enter your email" required maxlength="254" autocomplete="email"><small class="register-field-error" data-error-for="email" hidden></small></div>
+        <div class="field"><label for="register-phone">Phone number</label><input id="register-phone" name="phone" type="tel" placeholder="Enter your phone number" required maxlength="32" autocomplete="tel"><small class="register-field-error" data-error-for="phone" hidden></small></div>
+        <div class="field"><label for="register-password">Password</label><div class="password-wrap"><input id="register-password" name="password" type="password" placeholder="Create a password" required minlength="10" maxlength="200" autocomplete="new-password" aria-describedby="password-rules"><button class="password-toggle" type="button" data-toggle-password="register-password" aria-label="Show password">Show</button></div><small class="register-field-error" data-error-for="password" hidden></small></div>
+        <div class="field"><label for="register-confirm-password">Confirm password</label><div class="password-wrap"><input id="register-confirm-password" name="confirm_password" type="password" placeholder="Confirm your password" required autocomplete="new-password"><button class="password-toggle" type="button" data-toggle-password="register-confirm-password" aria-label="Show confirmation password">Show</button></div><small class="register-field-error" data-error-for="confirm_password" hidden></small></div>
+        <div class="password-rules" id="password-rules" aria-live="polite"><span>Password must contain:</span><ul><li data-rule="length"><i aria-hidden="true"></i>At least 10 characters</li><li data-rule="uppercase"><i aria-hidden="true"></i>One uppercase letter</li><li data-rule="number"><i aria-hidden="true"></i>One number</li></ul></div>
+        <label class="terms-check"><input name="terms_accepted" type="checkbox" required><span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
+        <small class="register-field-error agreement-error" data-error-for="terms_accepted" hidden></small>
+        <p class="register-privacy"><strong>Privacy Notice:</strong> The information you provide may be collected and processed to create and manage your Kapeling Ka account, process orders, provide customer support, improve our services, and maintain platform security. Your information will be handled in accordance with our <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</p>
+        <button class="button login-submit" type="submit">Create Account <span aria-hidden="true">↗</span></button>
+        <p class="login-register">Already have an account? <a href="login.html">Sign In</a></p>
+      </form>
+    </section>
+    <p class="login-footer-note"><span></span> Welcome in. Your table is waiting.</p>
+  </main>
+</body>
+</html>

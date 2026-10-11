@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#edf1e7">
+  <title>Place your order | KAPE</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/checkout.css">
+  <script src="js/config.js" defer></script><script src="js/api.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/checkout.js" defer></script>
+</head>
+<body class="checkout-page">
+  <header class="site-header checkout-navbar">
+    <a class="brand" href="home.html">KAPE<span>.</span></a>
+    <nav class="checkout-progress" aria-label="Checkout progress"><ol>
+      <li class="is-complete"><a href="cart.html" data-cart-page-link aria-label="Cart, completed"><span class="progress-marker" aria-hidden="true">&#10003;</span><span>Cart</span></a></li>
+      <li class="is-current" aria-current="step"><span class="progress-marker" aria-hidden="true">2</span><span>Checkout</span></li>
+      <li class="is-upcoming" aria-disabled="true"><span class="progress-marker" aria-hidden="true">3</span><span>Order Confirmation</span></li>
+    </ol></nav>
+    <a class="checkout-back-link" href="cart.html" data-cart-page-link>Back to cart<span class="checkout-cart-count" data-checkout-cart-count hidden>0</span></a>
+  </header>
+  <main class="container checkout-container">
+    <header class="checkout-heading"><p class="eyebrow">ALMOST YOURS</p><h1>Place Your Order</h1><p>Almost there. Let's get your coffee ready.</p></header>
+    <p class="notice error checkout-error" data-checkout-error hidden></p>
+    <form class="checkout-form" data-checkout hidden>
+      <p class="notice error checkout-error" data-message hidden></p>
+      <div class="checkout-layout">
+        <div class="checkout-left">
+          <section class="checkout-panel order-type-panel">
+            <div class="section-heading"><span class="section-step">01</span><div><p class="eyebrow">HOW WOULD YOU LIKE IT?</p><h2>Order Type</h2></div></div>
+            <div class="fulfillment-options" role="radiogroup" aria-label="Order type">
+              <label class="fulfillment-card is-selected"><input type="radio" name="fulfillment" value="pickup" checked><span class="fulfillment-icon" aria-hidden="true">⌂</span><span><strong>Pickup</strong><small>Pick up fresh at the cafe</small></span><span class="radio-mark" aria-hidden="true"></span></label>
+              <label class="fulfillment-card"><input type="radio" name="fulfillment" value="delivery"><span class="fulfillment-icon" aria-hidden="true">↗</span><span><strong>Delivery</strong><small>Bring your KAPE to you</small></span><span class="radio-mark" aria-hidden="true"></span></label>
+            </div>
+            <div class="fulfillment-detail" data-pickup-detail><strong>Pickup Location</strong><p>We’ll confirm the cafe pickup details with your order.</p><strong>Pickup Time</strong><p>We’ll let you know when your order is ready.</p></div>
+            <div class="fulfillment-detail" data-delivery-summary hidden><strong>Delivery Address</strong><p data-delivery-address></p><a href="me.html?return=checkout.html#settings">Edit address in your account</a></div>
+          </section>
+
+          <section class="checkout-panel customer-panel">
+            <div class="section-heading"><span class="section-step">02</span><div><p class="eyebrow">WE’LL KEEP YOU POSTED</p><h2>Customer Information</h2></div></div>
+            <div class="customer-fields">
+              <div class="field"><label for="checkout-name">Name</label><input id="checkout-name" name="name" required maxlength="120" autocomplete="name"></div>
+              <div class="field"><label for="checkout-email">Email</label><input id="checkout-email" name="email" type="email" required maxlength="254" autocomplete="email"></div>
+              <div class="field"><label for="checkout-phone">Phone</label><input id="checkout-phone" name="phone" type="tel" required maxlength="32" autocomplete="tel"></div>
+            </div>
+            <a class="account-edit-link" href="me.html?return=checkout.html#settings">Manage saved details</a>
+          </section>
+
+          <section class="checkout-panel payment-panel">
+            <div class="section-heading"><span class="section-step">03</span><div><p class="eyebrow">NO SURPRISES</p><h2>Payment Method</h2></div></div>
+            <div class="payment-info"><span aria-hidden="true">♡</span><p>Online payment methods aren’t configured yet. No payment will be collected online for this order.</p></div>
+          </section>
+
+          <section class="checkout-panel notes-panel">
+            <div class="section-heading"><span class="section-step">04</span><div><p class="eyebrow">A LITTLE EXTRA DETAIL</p><h2>Order Notes</h2></div></div>
+            <div class="field"><label for="order-notes">Anything we should know? <span class="optional-label">Optional</span></label><textarea id="order-notes" name="order_notes" rows="3" maxlength="1000" placeholder="Less ice, extra hot, no straw, or other special instructions"></textarea><small class="notes-count" data-notes-count>0 / 1000</small></div>
+          </section>
+        </div>
+
+        <aside class="checkout-panel order-summary" aria-labelledby="summary-title">
+          <div class="summary-heading"><div><p class="eyebrow">MADE FRESH FOR YOU</p><h2 id="summary-title">Your Order</h2></div><span class="summary-count" data-item-count>0 items</span></div>
+          <div class="summary-items" data-order-items><p class="summary-loading">Gathering your order…</p></div>
+          <div class="summary-totals"><p><span>Subtotal</span><strong data-subtotal>₱0.00</strong></p><p><span>Delivery Fee</span><strong data-delivery-fee>₱0.00</strong></p><p><span>Discount</span><strong data-discount>₱0.00</strong></p><p class="grand-total"><span>Total</span><strong data-total>₱0.00</strong></p></div>
+          <button class="button place-order-button" type="submit" data-place-order>Place Order <span aria-hidden="true">↗</span></button>
+          <p class="secure-note"><span aria-hidden="true">✦</span> Your order details are sent securely.</p>
+        </aside>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

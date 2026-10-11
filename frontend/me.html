@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f2f2e8">
+  <title>Me | KAPE</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/me.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <script src="js/config.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/order-status.js" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
+  <script src="js/me.js" defer></script>
+</head>
+<body class="me-page">
+  <header class="site-header me-header">
+    <a class="brand" href="home.html">KAPE<span>.</span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="home.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="me.html#orders" aria-current="page">Me</a>
+      <a href="cart.html">Cart</a>
+    </nav>
+  </header>
+
+  <main class="me-shell">
+    <section class="me-welcome">
+      <div>
+        <p class="eyebrow">YOUR KAPE ACCOUNT</p>
+        <h1 data-welcome>Welcome back.</h1>
+        <p class="muted">Your orders, your details, all in one little place.</p>
+      </div>
+      <span class="me-stamp" aria-hidden="true">K.</span>
+    </section>
+
+    <div class="me-state" data-loading role="status" aria-live="polite"><span class="me-loader" aria-hidden="true"></span><span>Gathering your KAPE details…</span></div>
+    <section class="me-error panel" data-error hidden role="alert">
+      <h2>We couldn't load your account</h2>
+      <p data-error-message></p>
+      <button class="button secondary" type="button" data-retry>Try again</button>
+    </section>
+
+    <div class="me-dashboard" data-dashboard hidden>
+      <div class="me-main-column">
+        <section class="me-card current-card" id="current-order" aria-labelledby="current-order-title">
+          <div class="me-card-heading"><div><p class="eyebrow">RIGHT NOW</p><h2 id="current-order-title">Your current order</h2></div><span class="status-pill" data-current-status></span></div>
+          <div data-current-order></div>
+        </section>
+        <section class="me-card" id="orders" aria-labelledby="orders-title">
+          <div class="me-card-heading"><div><p class="eyebrow">YOUR KAPE MOMENTS</p><h2 id="orders-title">Order history</h2></div><span class="me-count" data-order-count>0 orders</span></div>
+          <div class="me-history" data-order-history></div>
+        </section>
+        <section class="me-card" aria-labelledby="updates-title">
+          <div class="me-card-heading"><div><p class="eyebrow">IN THE LOOP</p><h2 id="updates-title">Updates for you</h2></div></div>
+          <div class="me-notifications" data-notifications></div>
+        </section>
+      </div>
+
+      <aside class="me-side-column" aria-label="Account details">
+        <section class="me-card profile-card" aria-labelledby="profile-title">
+          <div class="profile-avatar" data-avatar aria-hidden="true">K</div>
+          <p class="eyebrow">YOUR PROFILE</p>
+          <h2 id="profile-title" data-profile-name></h2>
+          <p class="profile-email" data-profile-email></p>
+          <div class="profile-summary">
+            <p><span>Phone number</span><strong data-profile-phone>Not added</strong></p>
+            <div class="profile-address-row"><span>Saved delivery address</span><div class="profile-address-value" data-profile-address>Not added</div></div>
+            <p><span>Member since</span><strong data-profile-joined>—</strong></p>
+          </div>
+          <div class="profile-actions">
+            <a class="button secondary" href="#settings" data-edit-profile>Edit profile</a>
+            <a class="button secondary profile-edit-address" href="#address-fields" data-edit-address>Edit address</a>
+          </div>
+        </section>
+
+        <section class="me-card me-settings" id="settings" aria-labelledby="settings-title">
+          <div class="me-card-heading"><div><p class="eyebrow">ACCOUNT PREFERENCES</p><h2 id="settings-title">Your details</h2></div></div>
+          <p class="me-form-message" data-profile-message hidden role="status" aria-live="polite"></p>
+          <form class="me-form" data-profile-form>
+            <div class="profile-form-grid">
+              <label>Name<input name="name" maxlength="120" autocomplete="name" required></label>
+              <label>Email<input name="email" type="email" maxlength="254" autocomplete="email" required></label>
+              <label>Phone number<input name="phone" maxlength="32" autocomplete="tel" inputmode="tel" placeholder="09XX XXX XXXX"></label>
+            </div>
+
+            <fieldset class="address-fields" id="address-fields">
+              <legend>Delivery address <span>Philippines</span></legend>
+              <p class="address-form-help">Add these details for a complete delivery address. Subdivision or village is optional.</p>
+              <label>Unit / House Number &amp; Street Name<textarea name="address_unit" rows="2" maxlength="160" autocomplete="street-address" placeholder="Unit 3, 24 Sampaguita Street"></textarea></label>
+              <label><span class="address-field-title">Subdivision / Village / Community <small class="optional-label">Optional</small></span><input name="address_subdivision" maxlength="80" autocomplete="address-line2" placeholder="Village or community name"></label>
+              <div class="address-form-grid">
+                <label>Barangay<input name="address_barangay" maxlength="60" autocomplete="address-level3" placeholder="Barangay name"></label>
+                <label>City / Municipality<input name="address_city" maxlength="80" autocomplete="address-level2" placeholder="City or municipality"></label>
+                <label class="postal-field">4-digit Postal Code<input name="address_postal" type="text" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="postal-code" placeholder="1000" aria-describedby="postal-help"></label>
+              </div>
+              <small class="postal-help" id="postal-help">Enter exactly 4 digits.</small>
+              <div class="saved-location" data-location-picker>
+                <div class="saved-location-heading"><div><strong>Delivery map pin</strong><p>Choose the drop-off point. You can drag the pin to adjust it.</p></div><span class="location-state" data-location-state>Optional</span></div>
+                <div class="location-actions">
+                  <button class="button secondary" type="button" data-locate-me>Use my location</button>
+                  <button class="location-clear" type="button" data-clear-location disabled>Clear pin</button>
+                </div>
+                <div class="location-map" data-location-map role="application" aria-label="Delivery location map. Click to place or move the pin."></div>
+                <p class="location-feedback" data-location-feedback role="status" aria-live="polite">A map pin is optional. Choose one to help the team find your address.</p>
+                <input type="hidden" name="delivery_latitude">
+                <input type="hidden" name="delivery_longitude">
+              </div>
+            </fieldset>
+
+            <button class="button profile-save-button" type="submit">Save changes</button>
+          </form>
+
+          <details class="password-details">
+            <summary>Change password</summary>
+            <p class="me-form-message" data-password-message hidden role="status" aria-live="polite"></p>
+            <form class="me-form password-form" data-password-form>
+              <label>Current password<input name="current_password" type="password" autocomplete="current-password" required></label>
+              <label>New password<input name="new_password" type="password" minlength="10" autocomplete="new-password" required><small>Use at least 10 characters.</small></label>
+              <button class="button secondary" type="submit">Update password</button>
+            </form>
+          </details>
+          <button class="me-logout" type="button" data-logout>Sign out of KAPE <span aria-hidden="true">↗</span></button>
+        </section>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>
