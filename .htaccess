@@ -7,6 +7,9 @@ Options -Indexes
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # A repository checkout may include Git metadata; never serve it publicly.
+    RewriteRule (^|/)\.git(?:/|$) - [F,L,NC]
+
     # The connected storefront is now the site homepage.
     RewriteRule ^$ frontend/home.html [R=302,L]
 

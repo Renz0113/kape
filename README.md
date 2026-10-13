@@ -199,12 +199,61 @@ The current project can run from XAMPP's Apache and MySQL services:
 
 The root `.htaccess` sends `/api/...` requests to the PHP front controller and leaves static files accessible. If Apache does not apply the rewrite, confirm that `mod_rewrite` is enabled in `C:\xampp\apache\conf\httpd.conf` and that the Apache directory configuration permits `.htaccess` overrides (`AllowOverride All`), then restart Apache. Checkout creates pending orders; it does not charge customers because a payment provider adapter and verified webhook are not implemented.
 
+## Production deployment on Vercel with FrankenPHP
+
+The project keeps its existing HTML/CSS/JavaScript frontend and PHP/MySQL backend. `Dockerfile.vercel` uses Vercel's Container Runtime (Beta) with FrankenPHP; the container serves the existing static files and executes the PHP API. MySQL remains external. Deploy from the repository root, not `frontend/`.
+
+### Requirements and environment variables
+
+- Vercel Container Runtime support (currently Beta), with the Vercel project Root Directory set to `.` / repository root and Framework Preset set to **Other**.
+- An external MySQL 8 or MariaDB 10.5+ database that accepts connections from Vercel's deployment region/network and has TLS enabled when the provider supports it.
+- Vercel project environment variables for **Production** (and Preview too, if preview deployments should access a separate test database):
+
+  | Variable | Required | Example/value |
+  | --- | --- | --- |
+  | `DB_HOST` | Yes | Hostname supplied by your managed MySQL provider |
+  | `DB_PORT` | Yes | `3306`, or the provider's port |
+  | `DB_NAME` | Yes | Database name |
+  | `DB_USER` | Yes | Least-privilege database user |
+  | `DB_PASSWORD` | Yes | Database password; enter only in Vercel settings |
+  | `APP_ENV` | Recommended | `production` |
+  | `APP_DEBUG` | Recommended | `false` |
+  | `APP_TIMEZONE` | Optional | `Asia/Manila` |
+
+  Never commit a populated `.env` file or place credentials in frontend code. `.env*` is ignored by Git except the safe `.env.example`; the Dockerfile copies only application files, not local environment files.
+
+### First-time deployment
+
+1. Create a managed MySQL database and a dedicated application user. Allow the database to accept connections from the hosting environment according to the provider's networking guidance; do not open it to the entire internet if private networking or an IP allowlist is available.
+2. For a **new, empty database only**, import `database/schema.sql`. Import `database/seed.sql` only if you want the sample products/categories. For a database that already has production data, back it up and apply only required migrations; do not import the initial schema over it.
+3. In Vercel, import `Renz0113/kape`. Set Root Directory to `.` (repository root), Framework Preset to **Other**, and leave the Build Command at its default/blank value so Vercel detects `Dockerfile.vercel`.
+4. Add the environment variables above to the Vercel project. Use separate development/test database credentials for Preview deployments. Redeploy after adding or changing variables.
+5. Deploy from the connected GitHub branch, or run `vercel --prod` from the repository root. Pushing to GitHub is not part of this local preparation.
+6. Test `https://<your-domain>/` (redirects to `/frontend/home.html`), `https://<your-domain>/frontend/home.html`, and `https://<your-domain>/api/v1/`. The API root should return JSON; `/api/v1/products` and `/api/v1/categories` should return data after the external schema is loaded. Confirm `/backend/routes/api.php` and `/database/schema.sql` return 404 rather than source files.
+7. Register a customer account, then make that specific account an admin only if needed, using a database console:
+
+   ```sql
+   UPDATE users
+   SET role = 'admin'
+   WHERE email = 'your-admin-email@example.com'
+     AND role = 'customer';
+   ```
+
+   Do not add public administrator registration. Test sign-in, browsing, and a non-payment test order before announcing the site.
+
+### Vercel runtime limitations to resolve for production
+
+- Vercel containers scale down and can start multiple instances. PHP's default file-backed sessions are not shared or durable across instances/restarts, so reliable customer/admin sign-in requires a shared session store before relying on production accounts and checkout.
+- The deployment filesystem is not durable storage. Administrator product-image uploads to `uploads/products/` and any image files created at runtime are not reliably persisted; configure external object storage and adapt upload/read URLs before depending on live uploads.
+- Checkout records pending orders only. Payment processing and a verified payment-provider webhook are not implemented.
+- Vercel's Container Runtime is Beta; review its current limits and pricing before production use. An external database provider may require additional network/TLS configuration.
+
 ### Implemented flows and current limits
 
 - Customers can browse active products and categories, keep a browser cart, open a slide-out cart with a live item count, validate current prices and stock, sign in before checkout (returning to checkout afterward), place orders, and view order progress from Me.
 - Customers can register, sign in, and use the protected Me account for their profile, address, optional OpenStreetMap pin, password, current order progress, order history, reorder, and order notifications. Delivery coordinates are validated on the server, stored with the account, and copied to delivery orders. Protected account and order APIs derive the customer ID from the server session. State-changing requests use a session CSRF token.
 - Admin API routes enforce the `admin` role. Admin pages show dashboard summaries, manage products and categories, update order status, adjust inventory, and view customer/payment records and a recent-order report.
-- Product image paths can be entered in product management. Upload handling is not implemented yet; the upload directory blocks script execution.
+- Product image paths can be entered in product management, and administrator image uploads are validated before being stored in `uploads/products/`. The upload directory blocks script execution; Vercel production deployments need external persistent image storage.
 - Payment processing is disabled until a provider adapter and signature-verified webhook are configured. Store settings currently live in server configuration rather than an editable admin API.
 - There is no automated migration runner. Apply `database/schema.sql` to a new database before importing sample data. Existing databases should apply applicable numbered migrations once in order; see `database/migrations/README.md`.
 

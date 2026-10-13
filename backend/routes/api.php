@@ -20,12 +20,15 @@ header('Referrer-Policy: same-origin');
 header('X-Frame-Options: DENY');
 if (session_status() !== PHP_SESSION_ACTIVE) {
     ini_set('session.use_strict_mode', '1');
-    session_set_cookie_params(['httponly'=>true, 'secure'=>!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', 'samesite'=>'Lax', 'path'=>'/']);
+    $forwardedProtocol = strtolower(trim(explode(',', (string)($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? ''))[0]));
+    $isSecureRequest = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $forwardedProtocol === 'https';
+    session_set_cookie_params(['httponly'=>true, 'secure'=>$isSecureRequest, 'samesite'=>'Lax', 'path'=>'/']);
     session_start();
 }
 
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-$requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+$requestUri = $_SERVER['HTTP_X_KAPE_ORIGINAL_URI'] ?? $_SERVER['REQUEST_URI'] ?? '/';
+$requestPath = parse_url($requestUri, PHP_URL_PATH) ?: '/';
 $apiPosition = strpos($requestPath, '/api/v1');
 $path = $apiPosition === false ? '/' : substr($requestPath, $apiPosition + strlen('/api/v1'));
 $path = '/' . trim($path, '/');

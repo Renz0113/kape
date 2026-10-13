@@ -1,0 +1,16 @@
+FROM dunglas/frankenphp:1-php8.3-alpine
+
+RUN install-php-extensions pdo_mysql mbstring
+
+WORKDIR /app
+
+COPY Caddyfile /etc/frankenphp/Caddyfile
+COPY admin ./admin
+COPY backend ./backend
+COPY frontend ./frontend
+COPY uploads ./uploads
+COPY index.html macha.jpeg macha1.jpg Matcha_liquid_splashing_in_motion_20261005231302.mp4 ./
+
+EXPOSE 80
+
+CMD ["frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile", "--adapter", "caddyfile"]

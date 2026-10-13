@@ -1,0 +1,18 @@
+:{$PORT:80} {
+    root * /app
+    encode zstd gzip
+
+    route {
+        @root path /
+        redir @root /frontend/home.html 302
+
+        @private path /backend* /database* /.env* /.git* /README.md /docs* /Dockerfile.vercel /Caddyfile /.htaccess
+        respond @private 404
+
+        @api path /api/v1 /api/v1/*
+        request_header @api X-Kape-Original-Uri {http.request.uri}
+        rewrite @api /backend/routes/api.php
+
+        php_server
+    }
+}
