@@ -220,7 +220,7 @@ The project keeps its existing HTML/CSS/JavaScript frontend and PHP/MySQL backen
   | `APP_DEBUG` | Recommended | `false` |
   | `APP_TIMEZONE` | Optional | `Asia/Manila` |
 
-  Never commit a populated `.env` file or place credentials in frontend code. `.env*` is ignored by Git except the safe `.env.example`; the Dockerfile copies only application files, not local environment files.
+  Never commit a populated `.env` file or place credentials in frontend code. `.env*` is ignored by Git except the safe `.env.example`; the Dockerfile copies only application files, not local environment files. `.vercelignore` excludes the SQL schema/export directory from deployments; it remains available in the GitHub source repository.
 
 ### First-time deployment
 
